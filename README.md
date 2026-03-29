@@ -12,20 +12,63 @@ A powerful Model-Context-Protocol (MCP) server for interacting with Plex Media S
 
 ## Installation
 
-### Option 1: Using uv (Recommended)
+### Option 1: Docker (Recommended for Unraid / Home Servers)
+
+Pull and run the pre-built image from GitHub Container Registry:
+
+```bash
+docker run -d \
+  --name plex-mcp-server \
+  --restart unless-stopped \
+  -p 3001:3001 \
+  -e PLEX_URL=http://192.168.1.x:32400 \
+  -e PLEX_TOKEN=your-token \
+  ghcr.io/teejs/plex-mcp-server-docker:latest
+```
+
+Or use Docker Compose — copy `.env.example` to `.env`, fill in your values, then:
+
+```bash
+docker compose up -d
+```
+
+**Unraid**: Add a new container in the Docker tab with:
+- **Repository**: `ghcr.io/teejs/plex-mcp-server-docker:latest`
+- **Port mapping**: `3001` → `3001`
+- **Environment variable** `PLEX_URL`: your Plex server's LAN IP (e.g., `http://192.168.1.x:32400`)
+- **Environment variable** `PLEX_TOKEN`: your Plex token
+
+> **Note**: Use your Plex server's LAN IP address for `PLEX_URL`, not `localhost`, as the container has its own network namespace.
+
+#### Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PLEX_URL` | **Yes** | — | Plex server URL (e.g., `http://192.168.1.x:32400`) |
+| `PLEX_TOKEN` | **Yes** | — | Plex authentication token |
+| `MCP_OAUTH_ENABLED` | No | `false` | Enable OAuth 2.1 authentication |
+| `MCP_OAUTH_ISSUER` | No | — | OIDC provider URL (required if OAuth enabled) |
+| `MCP_SERVER_URL` | No | — | Public URL of this server (required if OAuth enabled) |
+| `MCP_OAUTH_JWKS_CACHE_TTL` | No | `3600` | OAuth signing key cache TTL in seconds |
+
+To find your Plex token: in Plex Web, open any media item → `...` → Get Info → View XML — the token appears in the URL as `X-Plex-Token=`.
+
+Once running, connect your MCP client to `http://your-server-ip:3001/sse`.
+
+### Option 2: Using uv
 
 Run directly without installation:
 ```bash
 uvx plex-mcp-server --transport stdio --plex-url http://your-server:32400 --plex-token your-token
 ```
 
-### Option 2: Install via pip
+### Option 3: Install via pip
 
 ```bash
 pip install plex-mcp-server
 ```
 
-### Option 3: Development / Source
+### Option 4: Development / Source
 
 ```bash
 git clone https://github.com/vladimir-tutin/plex-mcp-server.git
