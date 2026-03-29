@@ -379,7 +379,7 @@ def main():
         # Run with streamable HTTP transport (modern MCP transport, /mcp endpoint)
         print(f"Starting Streamable HTTP server on http://{args.host}:{args.port}")
         print("Access the MCP endpoint at /mcp")
-        mcp.run(transport='streamable-http', host=args.host, port=args.port)
+        uvicorn.run(mcp.streamable_http_app(), host=args.host, port=args.port)
     else:
         # Run with SSE transport (legacy)
         mcp_server = mcp._mcp_server  # Access the underlying MCP server
