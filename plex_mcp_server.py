@@ -318,8 +318,8 @@ def main():
     
     # Setup command line arguments
     parser = argparse.ArgumentParser(description='Run Plex MCP Server')
-    parser.add_argument('--transport', choices=['stdio', 'sse'], default='sse',
-                        help='Transport method to use (stdio or sse)')
+    parser.add_argument('--transport', choices=['stdio', 'sse', 'streamable-http'], default='streamable-http',
+                        help='Transport method to use (stdio, sse, or streamable-http)')
     parser.add_argument('--host', default='0.0.0.0', help='Host to bind to (for SSE)')
     parser.add_argument('--port', type=int, default=3001, help='Port to listen on (for SSE)')
     parser.add_argument('--debug', action='store_true', help='Enable debug mode')
@@ -375,8 +375,13 @@ def main():
     if args.transport == 'stdio':
         # Run with stdio transport (original method)
         mcp.run(transport='stdio')
+    elif args.transport == 'streamable-http':
+        # Run with streamable HTTP transport (modern MCP transport, /mcp endpoint)
+        print(f"Starting Streamable HTTP server on http://{args.host}:{args.port}")
+        print("Access the MCP endpoint at /mcp")
+        mcp.run(transport='streamable-http', host=args.host, port=args.port)
     else:
-        # Run with SSE transport
+        # Run with SSE transport (legacy)
         mcp_server = mcp._mcp_server  # Access the underlying MCP server
         starlette_app = create_starlette_app(mcp_server, debug=args.debug)
         print(f"Starting SSE server on http://{args.host}:{args.port}")

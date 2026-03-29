@@ -38,4 +38,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Run the MCP server in SSE mode
 ENTRYPOINT ["python", "plex_mcp_server.py"]
-CMD ["--transport", "sse", "--host", "0.0.0.0", "--port", "3001"]
+CMD ["--transport", "streamable-http", "--host", "0.0.0.0", "--port", "3001"]
