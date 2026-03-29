@@ -1,0 +1,17 @@
+.git
+.github
+.vscode
+.env
+.env.*
+!.env.example
+__pycache__
+modules/__pycache__
+*.pyc
+*.pyo
+*.egg-info
+build/
+dist/
+.venv
+watcher.py
+LICENSE
+README.md

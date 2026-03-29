@@ -1,0 +1,18 @@
+services:
+  plex-mcp-server:
+    image: ghcr.io/teejs/plex-mcp-server-docker:latest
+    # To build locally instead of pulling from GHCR, comment out 'image' above
+    # and uncomment the next line:
+    # build: .
+    container_name: plex-mcp-server
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PLEX_URL=${PLEX_URL:?PLEX_URL is required}
+      - PLEX_TOKEN=${PLEX_TOKEN:?PLEX_TOKEN is required}
+      # Optional: OAuth 2.1 / OIDC configuration
+      # - MCP_OAUTH_ENABLED=false
+      # - MCP_OAUTH_ISSUER=
+      # - MCP_SERVER_URL=
+      # - MCP_OAUTH_JWKS_CACHE_TTL=3600
