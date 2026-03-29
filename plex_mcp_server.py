@@ -379,6 +379,9 @@ def main():
         # Run with streamable HTTP transport (modern MCP transport, /mcp endpoint)
         print(f"Starting Streamable HTTP server on http://{args.host}:{args.port}")
         print("Access the MCP endpoint at /mcp")
+        # Disable DNS rebinding protection so the server accepts requests from
+        # any host (required when binding to 0.0.0.0 for network/Docker access)
+        mcp.settings.transport_security = None
         uvicorn.run(mcp.streamable_http_app(), host=args.host, port=args.port)
     else:
         # Run with SSE transport (legacy)
