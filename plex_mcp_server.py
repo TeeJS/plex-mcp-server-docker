@@ -114,6 +114,53 @@ from modules.client import (
     client_set_streams
 )
 
+# Tools disabled for this deployment - comment out any line to re-enable
+DISABLED_TOOLS = [
+    # Library
+    "library_get_stats",
+    "library_refresh",
+    "library_scan",
+    "library_get_recently_added",
+    # Media
+    "media_edit_metadata",
+    "media_delete",
+    "media_get_artwork",
+    "media_set_artwork",
+    "media_list_available_artwork",
+    # Collections
+    "collection_create",
+    "collection_add_to",
+    "collection_remove_from",
+    "collection_edit",
+    # Playlists
+    "playlist_delete",
+    "playlist_upload_poster",
+    "playlist_copy_to_user",
+    # Users
+    "user_search_users",
+    "user_list_all_users",
+    "user_get_info",
+    "user_get_continue_watching",
+    "user_get_statistics",
+    # Sessions
+    "sessions_get_media_playback_history",
+    # Server (all)
+    "server_get_plex_logs",
+    "server_get_info",
+    "server_get_bandwidth",
+    "server_get_current_resources",
+    "server_get_butler_tasks",
+    "server_get_alerts",
+    "server_run_butler_task",
+    # Clients
+    "client_get_details",
+    "client_get_timelines",
+]
+
+for _tool in DISABLED_TOOLS:
+    mcp.remove_tool(_tool)
+
+
 class OAuthMiddleware:
     """Pure ASGI middleware to validate OAuth tokens for protected endpoints.
     
