@@ -20,3 +20,9 @@ build/lib/modules/search.py
 build/lib/modules/server.py
 build/lib/modules/sessions.py
 build/lib/modules/user.py
+
+# Backups
+.backups/
+
+# Claude Code local settings
+.claude/settings.local.json
